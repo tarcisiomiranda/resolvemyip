@@ -1,0 +1,27 @@
+version: "3"
+
+
+services:
+  flask_myip:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: flask_myip
+    restart: unless-stopped
+    volumes:
+      - ./app.py:/src/app/app.py
+    ports:
+      - '8000:8000'
+    networks:
+      default:
+        ipv4_address: 192.168.255.111
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '50m'
+        max-file: '2'
+
+networks:
+  default:
+    external:
+      name: ce_frontend
